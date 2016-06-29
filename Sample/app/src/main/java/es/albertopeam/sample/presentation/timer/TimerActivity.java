@@ -2,6 +2,8 @@ package es.albertopeam.sample.presentation.timer;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.TextView;
 
 import es.albertopeam.infrastructure.concurrent.ExecutorImpl;
 import es.albertopeam.infrastructure.concurrent.MainThreadImpl;
@@ -16,6 +18,7 @@ import es.albertopeam.sample.infrastructure.ExecutorAdapter;
 public class TimerActivity extends AppCompatActivity {
 
     private TimerInteractor timerInteractor;
+    private TextView textTV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,16 +28,16 @@ public class TimerActivity extends AppCompatActivity {
     }
 
     private void setup() {
-        //TODO: DI
-        //TODO: constraint layout, button and result,,,,
-        //TODO: make a domain model,,,,
-        //TODO: make a boundary to not use the domain model. Make a x viewModel..
-        //TODO: mantain clean...
+        textTV = (TextView) findViewById(R.id.tv);
         timerInteractor = new TimerInteractor(new ExecutorAdapter(new ExecutorImpl(), new MainThreadImpl()));
+    }
+
+    public void start(View view){
+        textTV.setText("5");
         timerInteractor.temporizate(5, new TimerUseCase.TimerCallback() {
             @Override
             public void endTemporization(int seconds) {
-
+                textTV.setText("end temporization");
             }
         });
     }
